@@ -11,34 +11,28 @@ import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 @RequiredArgsConstructor
 @Service
 @Validated
-public class UseCaseValidateResourceAvailability implements GetNotificationById{
+public class UseCaseValidateResourceAvailability implements Function<String, Mono<String>> {
 
     @Autowired
     private final ResourceRepository resourceRepository;
     @Autowired
     private final ResourceMapper resourceMapper;
 
-
     @Override
-    public Mono<Notification> apply(String id) {
-        Objects.requireNonNull(id, "El Id es requerido");
+    public Mono<String> apply(String id) {
+        Objects.requireNonNull(id, "El id no puede ser nulo");
         return resourceRepository.findById(id)
-                .map(resourceMapper.mapResourceToDTO())
-                .map(resource -> isAvailableMessage(resource, resource.isAvailable()))
-                .switchIfEmpty(Mono.just(new Notification("Recurso no encontrado", false)));
-    }
+                .map(recurso ->
+                        recurso.isAvailable()
+                                ? "El recurso está disponible"
+                                : "El recurso no está disponible, se prestó el día: "
+                                + recurso.getReturnDate());
 
-    private Notification isAvailableMessage(ResourceDto resourceDto, boolean available) {
-        var notification = new Notification();
-        notification.setState(available);
-        if (available){
-            notification.setMessage("El recurso está disponible");
-        }
-        notification.setMessage("El recurso fue prestado en la fecha: " + resourceDto.getReturnDate());
-        return notification;
     }
 }
+

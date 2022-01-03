@@ -17,13 +17,13 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class UseCaseValidateResourceAvailabilityRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> getResourceAvailability(UseCaseValidateResourceAvailability useCaseValidateResourceAvailability) {
-        return route(GET("/biblioteca/validar/{id}").and(accept(MediaType.APPLICATION_JSON)),
-                request -> ServerResponse.ok()
+    public RouterFunction<ServerResponse> resourceAvalability(UseCaseValidateResourceAvailability useCaseValidateResourceAvailability) {
+        return route(
+                GET("/recursos/disponibilidad/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.accepted()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(useCaseValidateResourceAvailability.apply(
-                                request.pathVariable("id")), Notification.class))
-                        .onErrorResume((Error) -> ServerResponse.badRequest().build())
+                        .body(BodyInserters
+                                .fromPublisher(useCaseValidateResourceAvailability
+                                        .apply(request.pathVariable("id")), String.class))
         );
-    }
-}
+    }}

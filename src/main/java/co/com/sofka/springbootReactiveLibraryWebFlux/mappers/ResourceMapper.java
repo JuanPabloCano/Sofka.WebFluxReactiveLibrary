@@ -1,7 +1,7 @@
 package co.com.sofka.springbootReactiveLibraryWebFlux.mappers;
 
 import co.com.sofka.springbootReactiveLibraryWebFlux.dto.ResourceDto;
-import co.com.sofka.springbootReactiveLibraryWebFlux.model.Resource;
+import co.com.sofka.springbootReactiveLibraryWebFlux.collections.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

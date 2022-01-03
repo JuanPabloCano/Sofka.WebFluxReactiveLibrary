@@ -18,7 +18,7 @@ public class UseCaseDeleteResourceRouter {
 
     @Bean
     public RouterFunction<ServerResponse> deleteResource(UseCaseDeleteResource useCaseDeleteResource) {
-        return route(DELETE("biblioteca/borrar/{id}").and(accept(MediaType.APPLICATION_JSON)),
+        return route(DELETE("/borrar/{id}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.accepted()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(useCaseDeleteResource.apply(request

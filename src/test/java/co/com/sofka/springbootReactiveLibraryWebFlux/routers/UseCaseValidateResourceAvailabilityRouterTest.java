@@ -3,7 +3,7 @@ package co.com.sofka.springbootReactiveLibraryWebFlux.routers;
 import co.com.sofka.springbootReactiveLibraryWebFlux.enums.ResourceCategory;
 import co.com.sofka.springbootReactiveLibraryWebFlux.enums.ResourceType;
 import co.com.sofka.springbootReactiveLibraryWebFlux.mappers.ResourceMapper;
-import co.com.sofka.springbootReactiveLibraryWebFlux.model.Resource;
+import co.com.sofka.springbootReactiveLibraryWebFlux.collections.Resource;
 import co.com.sofka.springbootReactiveLibraryWebFlux.repository.ResourceRepository;
 import co.com.sofka.springbootReactiveLibraryWebFlux.useCases.UseCaseValidateResourceAvailability;
 import co.com.sofka.springbootReactiveLibraryWebFlux.utils.Notification;
@@ -47,21 +47,20 @@ class UseCaseValidateResourceAvailabilityRouterTest {
                 new Date(),
                 ResourceCategory.FICTION,
                 ResourceType.BOOK,
-                true );
+                true);
 
         Mono<Resource> resourceMono = Mono.just(resource);
+        when(resourceRepository.findById(resource.getId())).thenReturn(resourceMono);
 
-        when(resourceRepository.findById("xxxxxxxx")).thenReturn(resourceMono);
 
         webTestClient.get()
-                .uri("/biblioteca/validar/xxxxxxxx")
+                .uri("/recursos/disponibilidad/{id}", "xxxxxxxx")
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody(Notification.class)
-                .value(userResponse-> Assertions.assertThat(userResponse.getMessage())
-                        .isEqualTo("El material esta disponible"));
-
-        Mockito.verify(resourceRepository,Mockito.times(1)).findById("xxxxxxxx");
+                .expectStatus().isAccepted()
+                .expectBody(String.class)
+                .value(userResponse -> Assertions.assertThat(userResponse)
+                        .isEqualTo("El recurso está disponible")
+                );
 
     }
 

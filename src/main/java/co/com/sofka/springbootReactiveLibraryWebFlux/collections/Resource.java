@@ -1,4 +1,4 @@
-package co.com.sofka.springbootReactiveLibraryWebFlux.model;
+package co.com.sofka.springbootReactiveLibraryWebFlux.collections;
 
 import co.com.sofka.springbootReactiveLibraryWebFlux.enums.ResourceCategory;
 import co.com.sofka.springbootReactiveLibraryWebFlux.enums.ResourceType;

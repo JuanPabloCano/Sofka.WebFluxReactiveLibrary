@@ -3,7 +3,7 @@ package co.com.sofka.springbootReactiveLibraryWebFlux.routers;
 import co.com.sofka.springbootReactiveLibraryWebFlux.enums.ResourceCategory;
 import co.com.sofka.springbootReactiveLibraryWebFlux.enums.ResourceType;
 import co.com.sofka.springbootReactiveLibraryWebFlux.mappers.ResourceMapper;
-import co.com.sofka.springbootReactiveLibraryWebFlux.model.Resource;
+import co.com.sofka.springbootReactiveLibraryWebFlux.collections.Resource;
 import co.com.sofka.springbootReactiveLibraryWebFlux.repository.ResourceRepository;
 import co.com.sofka.springbootReactiveLibraryWebFlux.useCases.UseCaseGetResourceById;
 import org.assertj.core.api.Assertions;

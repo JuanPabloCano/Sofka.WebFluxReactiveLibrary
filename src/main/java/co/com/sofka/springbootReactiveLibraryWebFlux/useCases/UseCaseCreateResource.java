@@ -1,5 +1,6 @@
 package co.com.sofka.springbootReactiveLibraryWebFlux.useCases;
 
+import co.com.sofka.springbootReactiveLibraryWebFlux.collections.Resource;
 import co.com.sofka.springbootReactiveLibraryWebFlux.dto.ResourceDto;
 import co.com.sofka.springbootReactiveLibraryWebFlux.mappers.ResourceMapper;
 import co.com.sofka.springbootReactiveLibraryWebFlux.repository.ResourceRepository;
@@ -17,9 +18,9 @@ public class UseCaseCreateResource implements SaveResource {
     private final ResourceMapper resourceMapper;
 
     @Override
-    public Mono<ResourceDto> saveResource(ResourceDto resourceDto) {
+    public Mono<String> saveResource(ResourceDto resourceDto) {
         return resourceRepository.save(resourceMapper.mapDTOToResource(null)
                 .apply(resourceDto))
-                .map(resourceMapper.mapResourceToDTO());
+                .map(Resource::getId);
     }
 }

@@ -4,7 +4,7 @@ import co.com.sofka.springbootReactiveLibraryWebFlux.dto.ResourceDto;
 import co.com.sofka.springbootReactiveLibraryWebFlux.enums.ResourceCategory;
 import co.com.sofka.springbootReactiveLibraryWebFlux.enums.ResourceType;
 import co.com.sofka.springbootReactiveLibraryWebFlux.mappers.ResourceMapper;
-import co.com.sofka.springbootReactiveLibraryWebFlux.model.Resource;
+import co.com.sofka.springbootReactiveLibraryWebFlux.collections.Resource;
 import co.com.sofka.springbootReactiveLibraryWebFlux.repository.ResourceRepository;
 import co.com.sofka.springbootReactiveLibraryWebFlux.useCases.UseCaseCreateResource;
 import org.assertj.core.api.Assertions;
@@ -48,7 +48,7 @@ class UseCaseCreateResourceRouterTest {
                 new Date(),
                 ResourceCategory.FICTION,
                 ResourceType.BOOK,
-                true );
+                true);
 
         var resourceDto = new ResourceDto(
                 resource.getId(),
@@ -61,7 +61,7 @@ class UseCaseCreateResourceRouterTest {
         );
 
         Mono<Resource> resourceMono = Mono.just(resource);
-        when(resourceRepository.save(any()).thenReturn(resourceMono));
+        when(resourceRepository.save(any())).thenReturn(resourceMono);
 
         webTestClient.post()
                 .uri("/biblioteca/crear")
@@ -71,14 +71,6 @@ class UseCaseCreateResourceRouterTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class)
-                .value(resourceResponse -> Assertions.assertThat(resourceResponse)
-                        .isEqualTo(resource.getId(),
-                                resource.getAuthor(),
-                                resource.getName(),
-                                resource.getReturnDate(),
-                                resource.getResourceCategory(),
-                                resource.getResourceType(),
-                                resource.isAvailable()));
-        Mockito.verify(resourceRepository, Mockito.times(1)).save(any());
+                .value(userResponse -> Assertions.assertThat(userResponse).isEqualTo(resource.getId()));
     }
 }
