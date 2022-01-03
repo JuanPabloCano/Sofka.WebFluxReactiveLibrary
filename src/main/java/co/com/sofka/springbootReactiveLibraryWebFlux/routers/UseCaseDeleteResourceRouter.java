@@ -16,9 +16,6 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 public class UseCaseDeleteResourceRouter {
 
-    @Autowired
-    private UseCaseDeleteResource useCaseDeleteResource;
-
     @Bean
     public RouterFunction<ServerResponse> deleteResource(UseCaseDeleteResource useCaseDeleteResource) {
         return route(DELETE("biblioteca/borrar/{id}").and(accept(MediaType.APPLICATION_JSON)),

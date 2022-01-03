@@ -45,7 +45,7 @@ class UseCaseDeleteResourceRouterTest {
         when((resourceRepository.deleteById(resource.getId()))).thenReturn(Mono.empty());
 
         webTestClient.delete()
-                .uri("biblioteca/borrar/xxxx")
+                .uri("biblioteca/borrar/{id}/xxxx")
                 .exchange()
                 .expectStatus().isAccepted()
                 .expectBody().isEmpty();

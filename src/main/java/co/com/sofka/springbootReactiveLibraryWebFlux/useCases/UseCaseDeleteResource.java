@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -20,12 +19,8 @@ public class UseCaseDeleteResource implements Function<String, Mono<Void>> {
     @Override
     public Mono<Void> apply(String id) {
         Objects.requireNonNull(id, "El ID es requerido");
-        return resourceRepository.existsById(id)
-                .flatMap(deleteId -> {
-                    if (deleteId){
-                        return resourceRepository.deleteById(id);
-                    }
-                    throw new NoSuchElementException("No se pudo eliminar el recurso porque el ID no existe");
-                });
+        return resourceRepository.deleteById(id)
+                .switchIfEmpty(Mono.defer(() -> resourceRepository.deleteById(id)));
+
     }
 }
