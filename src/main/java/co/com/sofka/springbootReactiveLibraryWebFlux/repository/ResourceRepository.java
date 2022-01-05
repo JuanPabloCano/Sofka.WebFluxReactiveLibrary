@@ -13,6 +13,6 @@ public interface ResourceRepository extends ReactiveMongoRepository<Resource, St
 
     Mono<Resource> findByName(String bookName);
 
-    Flux<Resource> findByResourceCategoryAndResourceType(ResourceCategory resourceCategory,
-                                                         ResourceType resourceType);
+    Flux<Resource> findByResourceCategoryAndResourceType(String resourceCategory,
+                                                         String resourceType);
 }
